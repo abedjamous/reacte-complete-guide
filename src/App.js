@@ -9,7 +9,8 @@ class App extends Component {
       {name: 'Manu', age: 20},
       {name: 'Nada', age: 18}
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false,
   }
 
   switchNameHandler = (newName) => {
@@ -31,6 +32,11 @@ class App extends Component {
       ]})
   }
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
+
 
   render() {
     const style = {
@@ -41,6 +47,26 @@ class App extends Component {
       cursor: 'pointer',
     };
 
+    let persons = null;
+
+    if(this.state.showPersons) {
+      persons = (
+        <div>
+                <Person 
+                  name={this.state.persons[0].name}
+                    age={this.state.persons[0].age}/>
+                <Person 
+                  name={this.state.persons[1].name} 
+                  age={this.state.persons[1].age}
+                  click={this.switchNameHandler.bind(this, 'mario')}
+                  changed={this.nameChangeHandler}> My Hobbies: Reacting </Person>
+                <Person
+                  name={this.state.persons[2].name} 
+                  age={this.state.persons[2].age}/>
+        </div>
+      );
+    }
+
 
     return (
       <div className="App">
@@ -48,18 +74,8 @@ class App extends Component {
         <p>this is really working!!</p>
         <button
           style={style}
-         onClick={() => this.switchNameHandler("Max!!")}>Switch Name</button>
-        <Person 
-           name={this.state.persons[0].name}
-            age={this.state.persons[0].age}/>
-        <Person 
-           name={this.state.persons[1].name} 
-           age={this.state.persons[1].age}
-           click={this.switchNameHandler.bind(this, 'mario')}
-           changed={this.nameChangeHandler}> My Hobbies: Reacting </Person>
-        <Person
-           name={this.state.persons[2].name} 
-           age={this.state.persons[2].age}/>
+         onClick={this.togglePersonsHandler}>Toggle Persons</button>
+         {persons}
       </div>
     );
   }
